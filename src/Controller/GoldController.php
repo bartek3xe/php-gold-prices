@@ -25,11 +25,11 @@ class GoldController extends AbstractController
         }
 
         $from = $requestData['from'];
-        $to = $requestData['to'];
+        $to   = $requestData['to'];
 
         try {
             $fromDate = new \DateTime($from);
-            $toDate = new \DateTime($to);
+            $toDate   = new \DateTime($to);
         } catch (\Exception $exception) {
             return new JsonResponse(['error' => 'Invalid date format'], Response::HTTP_BAD_REQUEST);
         }
