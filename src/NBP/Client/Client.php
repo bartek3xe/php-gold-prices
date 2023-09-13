@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Gold\Client;
+namespace App\NBP\Client;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Utils;

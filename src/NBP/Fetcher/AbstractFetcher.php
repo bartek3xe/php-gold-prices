@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Gold\Fetcher;
+namespace App\NBP\Fetcher;
 
-use App\Gold\Client\Client;
+use App\NBP\Client\Client;
 
 abstract class AbstractFetcher
 {
