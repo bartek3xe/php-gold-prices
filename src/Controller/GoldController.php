@@ -2,22 +2,25 @@
 
 namespace App\Controller;
 
+use App\NBP\Processor\GoldProcessor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GoldController extends AbstractController
 {
+    public function __construct(private readonly GoldProcessor $processor)
+    {
+    }
+
     #[Route('/api/gold', name: 'app_gold')]
     public function index(): JsonResponse
     {
+        $from = new \DateTime('yesterday');
+        $to   = new \DateTime('today');
 
-        // Replace this placeholder with real code
+        $response = $this->processor->processAverageGoldCost($from, $to);
 
-        return $this->json([
-            "from" => "2021-01-04T00:00:00+02:00",
-            "to" => "2021-01-29T00:00:00+02:00",
-            "avg" => 12345.67
-        ]);
+        return new JsonResponse($response);
     }
 }
