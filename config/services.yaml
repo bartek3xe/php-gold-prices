@@ -14,3 +14,5 @@ services:
 
     GuzzleHttp\Client:
         class: GuzzleHttp\Client
+
+    GuzzleHttp\ClientInterface: '@GuzzleHttp\Client'
