@@ -13,8 +13,8 @@ class GoldController extends AbstractController
     {
     }
 
-    #[Route('/api/gold', name: 'app_gold')]
-    public function index(): JsonResponse
+    #[Route('/api/gold', name: 'app_gold', methods: ['POST'])]
+    public function index(Request $request): JsonResponse
     {
         $from = new \DateTime('yesterday');
         $to   = new \DateTime('today');
