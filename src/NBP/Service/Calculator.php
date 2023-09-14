@@ -6,8 +6,9 @@ class Calculator
 {
     public function calcAverageFromArray(array $array): float
     {
-        if ($this->hasNumericValues($array)) {
-            return array_sum($array) / count($array);
+        if (!empty($array) && $this->hasNumericValues($array)) {
+            $average = array_sum($array) / count($array);
+            return (float)$average;
         }
 
         return 0;
