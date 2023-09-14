@@ -24,7 +24,7 @@ class GoldController extends AbstractController
         $requestData = json_decode($request->getContent(), true);
 
         if (!$requestData || !isset($requestData['from']) || !isset($requestData['to'])) {
-            return new JsonResponse(['error' => 'Invalid JSON data'], Response::HTTP_BAD_REQUEST);
+            return $this->validator->createErrorJsonResponse('Invalid JSON data');
         }
 
         $from = $requestData['from'];
@@ -34,7 +34,7 @@ class GoldController extends AbstractController
             $fromDate = new \DateTime($from);
             $toDate   = new \DateTime($to);
         } catch (\Exception $exception) {
-            return new JsonResponse(['error' => 'Invalid date format'], Response::HTTP_BAD_REQUEST);
+            return $this->validator->createErrorJsonResponse('Invalid date format');
         }
 
         return $this->json($this->processor->processAverageGoldCost($fromDate, $toDate));
