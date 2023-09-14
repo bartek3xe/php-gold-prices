@@ -11,7 +11,7 @@ class CalculatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->calculator = new Calculator();;
+        $this->calculator = new Calculator();
 
         parent::setUp();
     }

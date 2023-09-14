@@ -2,7 +2,9 @@
 
 namespace App\Tests\Controller;
 
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Response;
 
 class GoldControllerTest extends WebTestCase
@@ -53,5 +55,32 @@ class GoldControllerTest extends WebTestCase
             'to'   => '2001-01-04 00:00:00'
         ]);
         $this->assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
+    }
+
+    public function testCaching(): void
+    {
+        $client = static::createClient();
+        $cache  = new FilesystemAdapter('', 0, __DIR__ . '/../../var/cache/gold');
+
+        $cache->clear();
+
+        $client->xmlHttpRequest('POST', '/api/gold', [], [], [], json_encode([
+            'from' => '2021-01-21T00:00:00Z',
+            'to'   => '2021-01-21T00:00:00Z'
+        ]));
+
+        $client->xmlHttpRequest('POST', '/api/gold', [], [], [], json_encode([
+            'from' => '2021-01-21T00:00:00Z',
+            'to'   => '2021-01-21T00:00:00Z'
+        ]));
+
+        $cacheItem = $cache->getItem('gold_price_2021-01-21_2021-01-21');
+
+        $this->assertTrue($cacheItem->isHit());
+
+        $response1 = json_decode($client->getResponse()->getContent(), true);
+        $response2 = json_decode($client->getResponse()->getContent(), true);
+
+        $this->assertEquals($response1, $response2);
     }
 }

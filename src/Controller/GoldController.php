@@ -3,18 +3,24 @@
 namespace App\Controller;
 
 use App\NBP\Processor\GoldProcessor;
+use App\NBP\Service\CacheHandler;
 use App\NBP\Service\Validator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\CacheItem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GoldController extends AbstractController
 {
+    const GOLD_CACHE_DIR = __DIR__ . '/../../var/cache/gold';
+
     public function __construct(
         private readonly GoldProcessor $processor,
         private readonly Validator $validator,
+        private readonly CacheHandler $cacher,
     ) {
+        $this->cacher->setCacheDirectory(self::GOLD_CACHE_DIR);
     }
 
     #[Route('/api/gold', name: 'app_gold', methods: ['POST'])]
@@ -54,6 +60,13 @@ class GoldController extends AbstractController
             );
         }
 
-        return $this->json($this->processor->processAverageGoldCost($fromDate, $toDate));
+        $result = $this->cacher->getOrSet(
+            'gold_price_' . $fromDate->format('Y-m-d') . '_' . $toDate->format('Y-m-d'),
+            function () use ($fromDate, $toDate) {
+                return $this->processor->processAverageGoldCost($fromDate, $toDate);
+            }
+        );
+
+        return $this->json($result);
     }
 }
