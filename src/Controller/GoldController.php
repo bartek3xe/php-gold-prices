@@ -3,10 +3,9 @@
 namespace App\Controller;
 
 use App\NBP\Processor\GoldProcessor;
-use App\NBP\Service\CacheHandler;
-use App\NBP\Service\Validator;
+use App\Service\CacheHandler;
+use App\Service\Validator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Cache\CacheItem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\NBP\Service;
+namespace App\Service;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
