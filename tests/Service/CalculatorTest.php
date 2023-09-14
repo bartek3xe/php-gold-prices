@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\NBP\Service;
+namespace App\Tests\Service;
 
-use App\NBP\Service\Calculator;
+use App\Service\Calculator;
 use PHPUnit\Framework\TestCase;
 
 class CalculatorTest extends TestCase

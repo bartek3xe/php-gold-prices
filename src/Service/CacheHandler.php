@@ -1,6 +1,6 @@
 <?php
 
-namespace App\NBP\Service;
+namespace App\Service;
 
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 

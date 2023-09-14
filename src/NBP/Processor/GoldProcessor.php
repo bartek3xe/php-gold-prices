@@ -3,7 +3,7 @@
 namespace App\NBP\Processor;
 
 use App\NBP\Fetcher\GoldFetcher;
-use App\NBP\Service\Calculator;
+use App\Service\Calculator;
 
 class GoldProcessor
 {

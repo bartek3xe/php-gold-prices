@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\NBP\Service;
+namespace App\Tests\Service;
 
-use App\NBP\Service\Validator;
+use App\Service\Validator;
 use PHPUnit\Framework\TestCase;
 
 class ValidatorTest extends TestCase
