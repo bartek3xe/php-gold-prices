@@ -11,10 +11,10 @@ class GoldControllerTest extends WebTestCase
     public function testGoldJanuary2021Single()
     {
         $client = static::createClient();
-        $client->xmlHttpRequest('POST', '/api/gold', [
-            'from' => '2001-01-04T00:00:00+00:00',
-            'to' => '2001-01-04T00:00:00+00:00'
-        ]);
+        $client->xmlHttpRequest('POST', '/api/gold', [], [], [], json_encode([
+            'from' => '2021-01-21T00:00:00Z',
+            'to'   => '2021-01-21T00:00:00Z'
+        ]));
         $response = json_decode($client->getResponse()->getContent(), true);
         $this->assertResponseIsSuccessful();
         $this->assertIsArray($response);
@@ -29,10 +29,10 @@ class GoldControllerTest extends WebTestCase
     public function testGoldJanuary2021Range()
     {
         $client = static::createClient();
-        $client->xmlHttpRequest('POST', '/api/gold', [
-            'from' => '2021-01-01T00:00:00+00:00',
-            'to' => '2021-01-31T00:00:00+00:00'
-        ]);
+        $client->xmlHttpRequest('POST', '/api/gold', [], [], [], json_encode([
+            'from' => '2021-01-01T00:00:00Z',
+            'to'   => '2021-01-31T00:00:00Z'
+        ]));
         $response = json_decode($client->getResponse()->getContent(), true);
         $this->assertResponseIsSuccessful();
         $this->assertIsArray($response);
