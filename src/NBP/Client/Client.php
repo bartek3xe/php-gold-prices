@@ -21,7 +21,7 @@ class Client
         return self::BASE_API_URL . $path;
     }
 
-    function get(string $path, array $keys, ResponseInterface &$response = null): array
+    function get(string $path, array $keys = [], ResponseInterface &$response = null): array
     {
         $response = $this->client->request(
             'GET',
