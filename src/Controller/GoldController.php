@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use App\NBP\Processor\GoldProcessor;
+use App\NBP\Service\CacheHandler;
 use App\NBP\Service\Validator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\CacheItem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,13 +13,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class GoldController extends AbstractController
 {
-    private readonly FilesystemAdapter $cache;
+    const GOLD_CACHE_DIR = __DIR__ . '/../../var/cache/gold';
 
     public function __construct(
         private readonly GoldProcessor $processor,
         private readonly Validator $validator,
+        private readonly CacheHandler $cacher,
     ) {
-        $this->cache = new FilesystemAdapter();
+        $this->cacher->setCacheDirectory(self::GOLD_CACHE_DIR);
     }
 
     #[Route('/api/gold', name: 'app_gold', methods: ['POST'])]
@@ -59,23 +60,13 @@ class GoldController extends AbstractController
             );
         }
 
-        $cachedResult = $this->getCacheResult($fromDate, $toDate);
-
-        if (!$cachedResult->isHit()) {
-            $result = $this->processor->processAverageGoldCost($fromDate, $toDate);
-
-            $cachedResult->set($result);
-            $this->cache->save($cachedResult);
-        } else {
-            $result = $cachedResult->get();
-        }
+        $result = $this->cacher->getOrSet(
+            'gold_price_' . $fromDate->format('Y-m-d') . '_' . $toDate->format('Y-m-d'),
+            function () use ($fromDate, $toDate) {
+                return $this->processor->processAverageGoldCost($fromDate, $toDate);
+            }
+        );
 
         return $this->json($result);
-    }
-
-    private function getCacheResult(\DateTime $fromDate, \DateTime $toDate): CacheItem
-    {
-        $cacheKey = 'gold_price_' . $fromDate->format('Y-m-d') . '_' . $toDate->format('Y-m-d');
-        return $this->cache->getItem($cacheKey);
     }
 }
