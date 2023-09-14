@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GoldControllerTest extends WebTestCase
 {
-
     public function testGoldJanuary2021Single()
     {
         $client = static::createClient();
@@ -16,6 +15,7 @@ class GoldControllerTest extends WebTestCase
             'to'   => '2021-01-21T00:00:00Z'
         ]));
         $response = json_decode($client->getResponse()->getContent(), true);
+
         $this->assertResponseIsSuccessful();
         $this->assertIsArray($response);
         $this->assertArrayHasKey('from', $response);
@@ -34,6 +34,7 @@ class GoldControllerTest extends WebTestCase
             'to'   => '2021-01-31T00:00:00Z'
         ]));
         $response = json_decode($client->getResponse()->getContent(), true);
+
         $this->assertResponseIsSuccessful();
         $this->assertIsArray($response);
         $this->assertArrayHasKey('from', $response);
@@ -49,7 +50,7 @@ class GoldControllerTest extends WebTestCase
         $client = static::createClient();
         $client->xmlHttpRequest('POST', '/api/gold', [
             'from' => '2001-01-04 00:00:00',
-            'to' => '2001-01-04 00:00:00'
+            'to'   => '2001-01-04 00:00:00'
         ]);
         $this->assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
     }
