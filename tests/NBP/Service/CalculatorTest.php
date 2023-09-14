@@ -16,7 +16,7 @@ class CalculatorTest extends TestCase
         parent::setUp();
     }
 
-    public function testCalcAverageFromArrayWithValidValues()
+    public function testCalcAverageFromArrayWithValidValues(): void
     {
         $array  = [1, 2, 3, 4, 5];
         $result = $this->calculator->calcAverageFromArray($array);
@@ -24,7 +24,7 @@ class CalculatorTest extends TestCase
         $this->assertEquals(3.0, $result);
     }
 
-    public function testCalcAverageFromArrayWithEmptyArray()
+    public function testCalcAverageFromArrayWithEmptyArray(): void
     {
         $array  = [];
         $result = $this->calculator->calcAverageFromArray($array);
@@ -32,7 +32,7 @@ class CalculatorTest extends TestCase
         $this->assertEquals(0, $result);
     }
 
-    public function testHasNumericValuesWithNumericArray()
+    public function testHasNumericValuesWithNumericArray(): void
     {
         $reflectionMethod = new \ReflectionMethod($this->calculator, 'hasNumericValues');
 
@@ -42,7 +42,7 @@ class CalculatorTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public function testHasNumericValuesWithNonNumericArray()
+    public function testHasNumericValuesWithNonNumericArray(): void
     {
         $reflectionMethod = new \ReflectionMethod($this->calculator, 'hasNumericValues');
 

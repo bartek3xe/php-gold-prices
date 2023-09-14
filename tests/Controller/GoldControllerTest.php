@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GoldControllerTest extends WebTestCase
 {
-    public function testGoldJanuary2021Single()
+    public function testGoldJanuary2021Single(): void
     {
         $client = static::createClient();
         $client->xmlHttpRequest('POST', '/api/gold', [], [], [], json_encode([
@@ -26,7 +26,7 @@ class GoldControllerTest extends WebTestCase
         $this->assertEquals(222.66, $response['avg']);
     }
 
-    public function testGoldJanuary2021Range()
+    public function testGoldJanuary2021Range(): void
     {
         $client = static::createClient();
         $client->xmlHttpRequest('POST', '/api/gold', [], [], [], json_encode([
@@ -45,7 +45,7 @@ class GoldControllerTest extends WebTestCase
         $this->assertEquals(223.51684210526315, $response['avg']);
     }
 
-    public function testMissingTimezone()
+    public function testMissingTimezone(): void
     {
         $client = static::createClient();
         $client->xmlHttpRequest('POST', '/api/gold', [

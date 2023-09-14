@@ -99,7 +99,6 @@ class GoldFetcherTest extends TestCase
         ]
     ];
 
-
     private Client $clientMock;
     private GoldFetcher $goldFetcher;
 
