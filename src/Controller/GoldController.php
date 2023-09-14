@@ -7,7 +7,6 @@ use App\NBP\Service\Validator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GoldController extends AbstractController
@@ -30,11 +29,29 @@ class GoldController extends AbstractController
         $from = $requestData['from'];
         $to   = $requestData['to'];
 
+        if (!Validator::isValidGoldDateFormat($from) || !Validator::isValidGoldDateFormat($to)) {
+            return $this->validator->createErrorJsonResponse(
+                'Invalid date format. Please use the ISO 8601 date and time format'
+            );
+        }
+
         try {
             $fromDate = new \DateTime($from);
             $toDate   = new \DateTime($to);
         } catch (\Exception $exception) {
             return $this->validator->createErrorJsonResponse('Invalid date format');
+        }
+
+        if ($fromDate < new \DateTime(Validator::GOLD_HISTORICAL_DATA_START_DATE)) {
+            return $this->validator->createErrorJsonResponse(
+                'Requested data is not available before ' . Validator::GOLD_HISTORICAL_DATA_START_DATE
+            );
+        }
+
+        if (!$this->validator->isValidGoldDateRangeDuration($fromDate, $toDate)) {
+            return $this->validator->createErrorJsonResponse(
+                'The requested date range exceeds the maximum allowed duration of 93 days'
+            );
         }
 
         return $this->json($this->processor->processAverageGoldCost($fromDate, $toDate));
