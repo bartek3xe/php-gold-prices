@@ -20,7 +20,6 @@
         "symfony/proxy-manager-bridge": "6.1.*",
         "symfony/runtime": "6.1.*",
         "symfony/security-bundle": "6.1.*",
-        "symfony/webpack-encore-bundle": "*",
         "symfony/yaml": "6.1.*"
     },
     "require-dev": {
