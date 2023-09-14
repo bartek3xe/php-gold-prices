@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\NBP\Processor\GoldProcessor;
+use App\NBP\Service\Validator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,8 +12,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class GoldController extends AbstractController
 {
-    public function __construct(private readonly GoldProcessor $processor)
-    {
+    public function __construct(
+        private readonly GoldProcessor $processor,
+        private readonly Validator $validator,
+    ) {
     }
 
     #[Route('/api/gold', name: 'app_gold', methods: ['POST'])]
